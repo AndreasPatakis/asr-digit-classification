@@ -1,1 +1,62 @@
-<mxfile host="app.diagrams.net" modified="2021-09-19T07:37:42.461Z" agent="5.0 (X11)" etag="P007VKCmzet9Q4Y_GubJ" version="15.2.9" type="device"><diagram id="d9GXOmLdC2NPShglwzjh" name="Page-1">7Vltb6M4EP41SN0PrQgEQj5uknYrbautlOru9tPJAQPeGoyM80J//Y3BvDrppbeJcl1t1Q94PB6GmWcejx3Dnie7Lxxl8SMLMDUsM9gZ9sKwrNHYsgz5bwZFJZlM7UoQcRIopVawJK9YCU0lXZMA5z1FwRgVJOsLfZam2Bc9GeKcbftqIaP9t2Yowppg6SOqS/8kgYgrqeeYrfwekyiu3zwy1UyCamUlyGMUsG1HZN8a9pwzJqqnZDfHVAavjku17u7AbOMYx6k4ZsGL+HvyfP+t2N4/zp7sYvQ6efjjeqSykYui/mIcQADUkHERs4iliN620hln6zTA0qwJo1bngbEMhCMQ/sBCFCqbaC0YiGKRUDULHvPiL7n+xqmH35W5crDY9UaFGlW+SgcPxkCJcrbmPn7rwxWWEI+weEvPalIFGMcsweAQLOSYIkE2fUeQAlvU6LX5gAeVkvekp7K7QXSt3mRYLgV/ZwHZwGMkH5cZe8GprDESEZEbEgczGYMMQQiUPry+s2SPlWbZCvkvUZliGKSM5AdtDIDTSXAuOPg0Z5RxkKQslbAJCaW1yLBs05xMFy7IKVph+sRyIghLYc6HZGJQmm0wFwRK8WGgkJAgKIFYK3ymJJITQuJvhtSosROyVCgsQjoBsWtBSQru1ZQhsSWjRdLouYTwtauWdfy9K/+k5gsWflwvi1EmDSe7SBLgDTiJE5TdoHVAWBMl6SjevQ1aHWNqQcMgRcMx1XjbEtKoJqS4S0a2eS5cTjRg3jGOG9g8lrvAMoPwcgaBSS7BMidkC/tItnAvSRa2lpNZt5Q3khl6WfIpynMSEiiSYXra4MtIbmNA9bKkE3uxBZz3Az0o7MDBXjDWWABmPGtlu+6JqmLcr4qxvacqRnuqwjtXUTha/GXhOiUTDxk6QALlAKVh3CEeoh9cjc2GpNewIcc5eUWr0pQsmYyRVJQf6cwMZyFtQY3kigiPYWklOgOHTY+kMOtsDOZp2ZrX5RB0MvWhacs9tslxfpK3yqWfOUdFR0Hhr7X8JAUdTEydHibcidNvYN+nDw+VBy0omk/57zhxNZgsweaAPOFYwWvMdKZ8VDYslnmVcbaCypTR+Xr9iFGaf/oFKNdxnQtTbv2yCx1fmsH3/lnm/McX7yM0JCP9+PLMEUn35qxs8s+39R2Ev7o4UIuNZsfpZuUN7B0sFvPG8rxpZet9PKoRX71X1StYGNa9w91p2U7fFI85b/4+HV7wdOjYA1Ke6K3VdA8nT87FyVMNQ97vNrhOljlIlnPxPnispeuJY+hXfJznZSecQ3wR/eCd8Mg6csO0L7phWsfwb5sfYKSj7/euANFQOVB1cxkwlGRUtrEcCfypVl/xoYF/IfWf6VnDMLR8f1/PGrgr1zlTz9r0opfrWfV7AjgR5Gsu04F8f82RX/wCkZ6YF4+0vhVdbQn4sueCUj+P/S/3oG6zYp4mb7bXz5u773rZOs2eBMP2B6+qaW1/NrRv/wE=</diagram></mxfile>
+<mxfile host="65bd71144e">
+    <diagram id="d9GXOmLdC2NPShglwzjh" name="Page-1">
+        <mxGraphModel dx="1161" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-1" target="kt_7THOywHMBP3y1z7LV-12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-1" value="&lt;div&gt;Spoken digits + space&lt;/div&gt;&lt;div&gt; + background noise&lt;/div&gt;" style="html=1;strokeColor=none;fillColor=#0079D6;labelPosition=center;verticalLabelPosition=middle;verticalAlign=top;align=center;fontSize=12;outlineConnect=0;spacingTop=-6;fontColor=#FFFFFF;sketch=0;shape=mxgraph.sitemap.audio;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="110" width="150" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-17" value="&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;Foreground Mel Spectrogram&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-3" target="kt_7THOywHMBP3y1z7LV-6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-3" value="&lt;font color=&quot;#000000&quot;&gt;Background vs Foreground classifier&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="430" width="110" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-5" value="&lt;font color=&quot;#000000&quot;&gt;20% spoken digits dataset&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="215" y="90" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-18" value="&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;Classified digits&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-6" target="kt_7THOywHMBP3y1z7LV-15" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="295" y="675"/>
+                            <mxPoint x="295" y="675"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-6" value="&lt;font color=&quot;#000000&quot;&gt;Some classifier for digit classification (probably HMM or KNN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="565" width="110" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-8" target="kt_7THOywHMBP3y1z7LV-6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-11" value="Train" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;labelBackgroundColor=#FFFFFF;" parent="kt_7THOywHMBP3y1z7LV-10" vertex="1" connectable="0">
+                    <mxGeometry x="0.2889" relative="1" as="geometry">
+                        <mxPoint x="18" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-8" value="&lt;div&gt;Spoken digits&lt;/div&gt;" style="html=1;strokeColor=none;fillColor=#0079D6;labelPosition=center;verticalLabelPosition=middle;verticalAlign=top;align=center;fontSize=12;outlineConnect=0;spacingTop=-6;fontColor=#FFFFFF;sketch=0;shape=mxgraph.sitemap.audio;" parent="1" vertex="1">
+                    <mxGeometry x="530" y="570" width="90" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-9" value="&lt;font color=&quot;#000000&quot;&gt;80% spoken digits dataset&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="495" y="550" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-14" value="&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;Preprocessed signal&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-12" target="kt_7THOywHMBP3y1z7LV-3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-12" value="&lt;div&gt;&lt;font color=&quot;#000000&quot;&gt;Preprocessing&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#000000&quot;&gt;(filters, sample rate)&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;glass=0;sketch=0;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="280" width="110" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-15" value="&lt;font color=&quot;#000000&quot;&gt;Measure accuracy&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="700" width="110" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="kt_7THOywHMBP3y1z7LV-19" value="(with Mel Spectrogram)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="610" width="120" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

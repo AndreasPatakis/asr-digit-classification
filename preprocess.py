@@ -1,3 +1,6 @@
+import librosa
+
+
 class SignalPreprocessor:
     '''Handles signal preprocessing.'''
 
@@ -5,8 +8,7 @@ class SignalPreprocessor:
         '''Applies filters to the given `signal`.'''
         # TODO Filters
         return signal
-    
-    def change_sample_rate(self, signal, sample_rate):
+
+    def change_sample_rate(self, signal, sr, target_sr):
         '''Changes the `signal`'s `sample_rate`.'''
-        # TODO Change the signal's sample rate
-        return signal, sample_rate
+        return librosa.resample(signal, sr, target_sr), target_sr
