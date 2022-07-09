@@ -3,7 +3,7 @@ import librosa
 import pickle
 
 from preprocess import SignalPreprocessor
-from digits import DigitClassifier
+from digits import KNNDigitClassifier
 from segmentation import BackgroundForegroundClassifier
 
 from utils import load_dataset
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         print('Loading training dataset...')
         training_features, training_labels = load_dataset('data/')
         print('Training dataset loaded.')
-        digit_classifier = DigitClassifier()
+        digit_classifier = KNNDigitClassifier(n_neighbors=5)
         digit_classifier.fit(training_features, training_labels)
 
     digits = [digit_classifier.predict(audio) for audio in digit_audio_list]
