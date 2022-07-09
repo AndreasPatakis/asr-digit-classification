@@ -4,6 +4,10 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 
+from preprocess import SignalPreprocessor
+
+sp = SignalPreprocessor()
+
 
 def load_dataset(directory: str) -> pd.DataFrame:
     '''
@@ -60,6 +64,15 @@ def get_data_from_file(directory: str, f: str) -> pd.DataFrame:
     path = os.path.join(directory, f)
     signal, sr = librosa.load(path)
 
+    # Preprocess the signal
+
+    # Change sample rate to 8KHz
+    signal, sr = sp.change_sample_rate(signal, sr, 8000)
+
+    # Apply filters to keep only the fundamental frequencies
+    # of the human voice.
+    signal = sp.apply_filters(signal, sr)
+
     data = pd.DataFrame(
         columns=['filename', 'sample_index', 'features', 'label']
     )
@@ -67,26 +80,44 @@ def get_data_from_file(directory: str, f: str) -> pd.DataFrame:
     samples = get_equal_samples(signal, sr)
 
     for sample_index in range(samples.shape[0]):
-        sample = samples[sample_index]
-
-        # MFCC features
-        features = librosa.feature.mfcc(y=sample, n_mfcc=13)
-
-        # 1st derivative features
-        delta_features = librosa.feature.delta(features)
-
-        # 2nd detivative features
-        delta2_features = librosa.feature.delta(features, order=2)
-        features = np.concatenate((features, delta_features, delta2_features))
-
-        # Final feature vector
-        features = features.reshape(-1)
+        features = get_features_from_signal(samples[sample_index])
 
         label = f.split('_')[0] if sample_index == 0 else None
 
         data.loc[len(data.index)] = [f, sample_index, features, label]
 
     return data
+
+
+def get_features_from_signal(y: np.ndarray):
+    '''
+    get_features_from_signal(y=y)
+
+    Extracts MFCC, Delta and Delta-Delta features from
+    the given signal. This results in a total of 39 features.
+
+    Parameters
+    ----------
+    y : np.ndarray
+        The signal to extract features from.
+
+    Returns
+    -------
+    features : ndarray
+        The extracted features.
+    '''
+    # MFCC features
+    features = librosa.feature.mfcc(y=y, n_mfcc=13)
+
+    # 1st derivative features
+    delta_features = librosa.feature.delta(features)
+
+    # 2nd detivative features
+    delta2_features = librosa.feature.delta(features, order=2)
+    features = np.concatenate((features, delta_features, delta2_features))
+
+    # Return the final feature vector
+    return features.reshape(-1)
 
 
 def get_equal_samples(y: np.ndarray, sr: int, duration: int = 1) -> np.ndarray:

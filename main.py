@@ -1,4 +1,6 @@
+from sklearn.model_selection import train_test_split
 from argparse import ArgumentParser
+import numpy as np
 import librosa
 import pickle
 
@@ -6,7 +8,7 @@ from preprocess import SignalPreprocessor
 from digits import KNNDigitClassifier
 from segmentation import BackgroundForegroundClassifier
 
-from utils import load_dataset
+from utils import load_dataset, get_features_from_signal
 
 
 def parse_args():
@@ -30,13 +32,13 @@ if __name__ == "__main__":
     # Signal preprocessing
     preprocessor = SignalPreprocessor()
 
-    input_signal = preprocessor.apply_filters(input_signal)
+    input_signal = preprocessor.apply_filters(input_signal, sample_rate)
     input_signal, sample_rate = preprocessor.change_sample_rate(
-        input_signal, sample_rate, 18000
+        input_signal, sample_rate, 6000
     )
 
-    # MFCC Features (Mel Frequency Cepstral Coefficients)
-    features = librosa.feature.mfcc(input_signal)
+    # MFCC, Delta and Delta-Delta Features
+    features = get_features_from_signal(input_signal)
 
     # Background vs Foreground
     background_vs_foreground = BackgroundForegroundClassifier()
@@ -46,13 +48,21 @@ if __name__ == "__main__":
     if model_file:
         digit_classifier = pickle.load(open(model_file, 'rb'))
     else:
+        # Load the training dataset
         print('Loading training dataset...')
-        training_features, training_labels = load_dataset('data/')
+        data = load_dataset('data')
+        data.dropna(inplace=True)
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            np.array(data.features.values.tolist()),
+            np.array(data.label),
+            test_size=0.2
+        )
         print('Training dataset loaded.')
+
+        # Traing the digit classifier
         digit_classifier = KNNDigitClassifier(n_neighbors=5)
-        digit_classifier.fit(training_features, training_labels)
+        digit_classifier.fit(X_train, y_train)
 
     digits = [digit_classifier.predict(audio) for audio in digit_audio_list]
     print(digits)
-
-    # TODO Calculate accuracy
