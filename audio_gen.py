@@ -95,7 +95,7 @@ def get_audio(digits_dir,noise_dir):
 
 
     final_signal = np.delete(final_signal,0)
-    write("example.wav", d_sr, final_signal)
+    #write("example.wav", d_sr, final_signal)
 
     return final_signal, d_sr
 
