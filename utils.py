@@ -75,6 +75,10 @@ def get_data_from_file(
     path = os.path.join(directory, f)
     signal, sr = librosa.load(path)
 
+    # Amplify background signals
+    if background:
+        signal *= 15
+
     # Preprocess the signal
 
     # Change sample rate to 8KHz
