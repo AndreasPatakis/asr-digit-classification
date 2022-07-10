@@ -42,18 +42,11 @@ def get_noise_signal(directory,duration):
     #Amplify noise signal a bit
     signal *= 2
 
-    # Change sample rate to 8KHz
-    signal, sr = sp.change_sample_rate(signal, sr, 8000)
-
-
     return get_n_length_sample(signal,sr,int(duration),random_start=True), sr
 
 def get_digit_signal(digit_file,noise_signal):
 
     signal, sr = librosa.load(digit_file)
-
-    # Change sample rate to 8KHz
-    signal, sr = sp.change_sample_rate(signal, sr, 8000)
 
     signal = get_n_length_sample(signal,sr)
 
