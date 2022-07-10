@@ -1,8 +1,8 @@
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from abc import ABC, abstractmethod
 import numpy as np
 
-from abc import ABC, abstractmethod
 from utils import load_dataset
 
 
@@ -70,6 +70,15 @@ class DigitClassifier(ABC):
         '''
         pass
 
+    @abstractmethod
+    def save(self):
+        '''
+        save()
+
+        Saves the classifier as a pickle file.
+        '''
+        pass
+
 
 class KNNDigitClassifier(DigitClassifier):
     '''A digit classifier that uses K-nearest neighbors.'''
@@ -80,15 +89,19 @@ class KNNDigitClassifier(DigitClassifier):
     def fit(self, features, labels):
         self.model.fit(features, labels)
 
-    def predict(self, features) -> np.ndarray:
+    def predict(self, features):
         return self.model.predict(features)
 
-    def score(self, test_features, test_labels) -> float:
+    def score(self, test_features, test_labels):
         return self.model.score(test_features, test_labels)
+
+    def save(self):
+        # TODO Save the classifier
+        pass
 
 
 if __name__ == '__main__':
-    data = load_dataset('data')
+    data = load_dataset('data/digits')
     data.dropna(inplace=True)
 
     X_train, X_test, y_train, y_test = train_test_split(
@@ -97,11 +110,14 @@ if __name__ == '__main__':
         test_size=0.2
     )
 
-    classifier = KNNDigitClassifier(n_neighbors=5)
+    classifier = KNNDigitClassifier(n_neighbors=3)
 
-    # Traing the classifier
+    # Train the classifier
     classifier.fit(X_train, y_train)
 
-    # Predict a number from the test dataset
+    # Calculate the classifier's score
     score = classifier.score(X_test, y_test)
     print(f'Score: {score}')
+
+    # Save the classifier
+    classifier.save()

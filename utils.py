@@ -3,13 +3,14 @@ import librosa
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
+from random import choice
 
 from preprocess import SignalPreprocessor
 
 sp = SignalPreprocessor()
 
 
-def load_dataset(directory: str) -> pd.DataFrame:
+def load_dataset(directory: str, background: bool = False) -> pd.DataFrame:
     '''
     load_dataset(directory='data')
 
@@ -19,6 +20,9 @@ def load_dataset(directory: str) -> pd.DataFrame:
     ----------
     directory : str
         The directory containing the audio files.
+    background : bool, optional
+        Indicates whether the directory contains background audio files.
+        If True all samples are labeled as "background".
 
     Returns
     -------
@@ -32,17 +36,21 @@ def load_dataset(directory: str) -> pd.DataFrame:
         columns=['filename', 'sample_index', 'features', 'label']
     )
 
-    print("Loading dataset...")
+    print(f'Loading dataset from "{directory}"...')
     for f in tqdm(files):
         data = pd.concat(
-            (data, get_data_from_file(directory, f)),
+            (data, get_data_from_file(directory, f, background)),
             ignore_index=True
         )
 
     return data
 
 
-def get_data_from_file(directory: str, f: str) -> pd.DataFrame:
+def get_data_from_file(
+    directory: str,
+    f: str,
+    background: bool = False
+) -> pd.DataFrame:
     '''
     get_data_from_file(directory='data', f='1_george_0.wav')
 
@@ -55,6 +63,9 @@ def get_data_from_file(directory: str, f: str) -> pd.DataFrame:
         The directory containing the audio files.
     f : str
         The name of the file
+    background : bool, optional
+        Indicates whether the directory contains background audio files.
+        If True all samples are labeled as "background".
 
     Returns
     -------
@@ -82,7 +93,10 @@ def get_data_from_file(directory: str, f: str) -> pd.DataFrame:
     for sample_index in range(samples.shape[0]):
         features = get_features_from_signal(samples[sample_index])
 
-        label = f.split('_')[0] if sample_index == 0 else None
+        if background:
+            label = 'background'
+        else:
+            label = f.split('_')[0] if sample_index == 0 else None
 
         data.loc[len(data.index)] = [f, sample_index, features, label]
 
@@ -178,3 +192,70 @@ def zero_pad(y: np.ndarray, target_size: int) -> np.ndarray:
         The zero padded signal.
     '''
     return np.concatenate((y, np.zeros(target_size - len(y))))
+
+
+def create_noisy_dataset(
+    background_directory: str,
+    foreground_directory: str,
+    data_size: int
+) -> pd.DataFrame:
+    '''
+    create_noisy_dataset('data/background', 'data/digits', 1000)
+
+    Mixes background and foreground signals
+    to create a dataset of noisy signals.
+
+    Parameters
+    ----------
+    background_directory : str
+        The directory containing the background audio files.
+    foreground_directory : str
+        The directory containing the foreground audio files.
+    data_size : int
+        The number of noisy signals in the noisy dataset.
+
+    Returns
+    -------
+    data : pd.DataFrame
+        The parsed DataFrame containing data for the created noisy signals.
+    '''
+    data = pd.DataFrame(
+        columns=['filename', 'sample_index', 'features', 'label']
+    )
+
+    background_files = os.listdir(background_directory)
+    foreground_files = os.listdir(foreground_directory)
+
+    print("Creating noisy dataset...")
+    for _ in tqdm(range(data_size)):
+        background_file = choice(background_files)
+        background_path = os.path.join(background_directory, background_file)
+
+        foreground_file = choice(foreground_files)
+        foreground_path = os.path.join(foreground_directory, foreground_file)
+
+        background, bsr = librosa.load(background_path)
+        foreground, fsr = librosa.load(foreground_path)
+
+        background_signal = choice(get_equal_samples(background, bsr))
+        foreground_signal = get_equal_samples(foreground, fsr)[0]
+
+        noisy_signal = background_signal + foreground_signal
+
+        # Preprocess the noisy signal
+
+        # Change sample rate to 8KHz
+        noisy_signal, nsr = sp.change_sample_rate(noisy_signal, bsr, 8000)
+
+        # Apply filters to keep only the fundamental frequencies
+        # of the human voice.
+        noisy_signal = sp.apply_filters(noisy_signal, nsr)
+
+        data.loc[len(data.index)] = [
+            f'{background_file} + {foreground_file}',
+            0,
+            get_features_from_signal(noisy_signal),
+            'foreground'
+        ]
+
+    return data
