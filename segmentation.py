@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from sklearn.svm import SVC
 import pandas as pd
 import numpy as np
+import pickle
 
 from utils import load_dataset, create_noisy_dataset
 
@@ -102,8 +103,8 @@ class SVMBackgroundForegroundClassifier(BackgroundForegroundClassifier):
         return self.model.score(test_features, test_labels)
 
     def save(self):
-        # TODO Save the classifier
-        pass
+        with open('svm_bf_model.pickle', 'wb') as pickle_out:
+            pickle.dump(self, pickle_out)
 
 
 if __name__ == '__main__':

@@ -240,7 +240,7 @@ def create_noisy_dataset(
         background_signal = choice(get_equal_samples(background, bsr))
         foreground_signal = get_equal_samples(foreground, fsr)[0]
 
-        noisy_signal = background_signal + foreground_signal
+        noisy_signal = 15 * background_signal + foreground_signal
 
         # Preprocess the noisy signal
 

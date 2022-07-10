@@ -2,6 +2,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from abc import ABC, abstractmethod
 import numpy as np
+import pickle
 
 from utils import load_dataset
 
@@ -96,8 +97,8 @@ class KNNDigitClassifier(DigitClassifier):
         return self.model.score(test_features, test_labels)
 
     def save(self):
-        # TODO Save the classifier
-        pass
+        with open('knn_digit_model.pickle', 'wb') as pickle_out:
+            pickle.dump(self, pickle_out)
 
 
 if __name__ == '__main__':
