@@ -36,18 +36,15 @@ def get_n_length_sample(signal,sr,duration=1,random_start=False):
 def get_noise_signal(directory,duration):
 
     noise_files = read_folder(directory)
-    noise_file_name = noise_files[random.randint(0,len(noise_files))]
+    #noise_file_name = noise_files[random.randint(0,len(noise_files))]
 
-    signal, sr = librosa.load(os.path.join(directory,noise_file_name))
+    signal, sr = librosa.load(os.path.join(directory,noise_files[100]))
     #Amplify noise signal a bit
-    signal *= 15
+    signal *= 2
 
     # Change sample rate to 8KHz
     signal, sr = sp.change_sample_rate(signal, sr, 8000)
 
-    # Apply filters to keep only the fundamental frequencies
-    # of the human voice.
-    signal = sp.apply_filters(signal, sr)
 
     return get_n_length_sample(signal,sr,int(duration),random_start=True), sr
 
@@ -58,13 +55,10 @@ def get_digit_signal(digit_file,noise_signal):
     # Change sample rate to 8KHz
     signal, sr = sp.change_sample_rate(signal, sr, 8000)
 
-    # Apply filters to keep only the fundamental frequencies
-    # of the human voice.
-    signal = sp.apply_filters(signal, sr)
     signal = get_n_length_sample(signal,sr)
 
     #Adding noise to the recording
-    signal = np.add(signal,noise_signal[:sr]*0.3)
+    signal = np.add(signal,noise_signal[:sr]*0.7)
 
     return signal, sr
 
@@ -95,7 +89,7 @@ def get_audio(digits_dir,noise_dir):
 
 
     final_signal = np.delete(final_signal,0)
-    #write("example.wav", d_sr, final_signal)
+    write("example.wav", d_sr, final_signal)
 
     return final_signal, d_sr
 
