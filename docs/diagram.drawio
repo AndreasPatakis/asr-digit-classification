@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="d9GXOmLdC2NPShglwzjh" name="Page-1">
-        <mxGraphModel dx="1161" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+        <mxGraphModel dx="1204" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -13,7 +13,7 @@
                 <mxCell id="kt_7THOywHMBP3y1z7LV-17" value="&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;Foreground Mel Spectrogram&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-3" target="kt_7THOywHMBP3y1z7LV-6" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="kt_7THOywHMBP3y1z7LV-3" value="&lt;font color=&quot;#000000&quot;&gt;Background vs Foreground classifier&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                <mxCell id="kt_7THOywHMBP3y1z7LV-3" value="&lt;font color=&quot;#000000&quot;&gt;Background vs Foreground classifier&lt;br&gt;&lt;b&gt;(SVM)&lt;/b&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="240" y="430" width="110" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="kt_7THOywHMBP3y1z7LV-5" value="&lt;font color=&quot;#000000&quot;&gt;20% spoken digits dataset&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
@@ -27,7 +27,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="kt_7THOywHMBP3y1z7LV-6" value="&lt;font color=&quot;#000000&quot;&gt;Some classifier for digit classification (probably HMM or KNN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                <mxCell id="kt_7THOywHMBP3y1z7LV-6" value="&lt;font color=&quot;#000000&quot;&gt;Classifier for digit classification &lt;br&gt;&lt;b&gt;(KNN /FNN)&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="240" y="565" width="110" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="kt_7THOywHMBP3y1z7LV-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;" parent="1" source="kt_7THOywHMBP3y1z7LV-8" target="kt_7THOywHMBP3y1z7LV-6" edge="1">

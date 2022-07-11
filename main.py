@@ -115,11 +115,15 @@ if __name__ == "__main__":
 
     # Signal preprocessing
 
+    # Change sample rate to 8KHz
     input_signal, sample_rate = change_sample_rate(
         input_signal, sample_rate, 8000
     )
 
+    # Apply filters to keep only the fundamental frequencies
+    # of the human voice.
     input_signal = apply_filters(input_signal, sample_rate)
+
     input_samples = get_equal_samples(input_signal, sample_rate)
 
     # Collect features

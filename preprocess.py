@@ -31,9 +31,9 @@ def apply_filters(signal, sr):
     # Harmonics :900Hz to 8KHz
 
     # Bandpass filter
-    # 300Hz - 3KHz (Keep fundamental freuqncies, ignore harmonics)
+    # 100Hz - 3KHz (Keep fundamental freuqncies, ignore harmonics)
 
-    return apply_bandpass_filter(signal, sr, 300, 3000)
+    return apply_bandpass_filter(signal, sr, 100, 3000)
 
 
 def apply_bandpass_filter(signal, sr, low, high):
