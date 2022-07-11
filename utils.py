@@ -37,13 +37,11 @@ def load_dataset(directory: str, background: bool = False) -> pd.DataFrame:
     )
 
     print(f'Loading dataset from "{directory}"...')
-    for i,f in enumerate(tqdm(files)):
+    for f in tqdm(files):
         data = pd.concat(
             (data, get_data_from_file(directory, f, background)),
             ignore_index=True
         )
-        if i == 67:
-            break
     return data
 
 
@@ -108,7 +106,7 @@ def get_data_from_file(
     return data
 
 
-def get_features_from_signal(y: np.ndarray):
+def get_features_from_signal(y: np.ndarray) -> np.ndarray:
     '''
     get_features_from_signal(y=y)
 
