@@ -1,11 +1,7 @@
-from sklearn.model_selection import train_test_split
 from abc import ABC, abstractmethod
 from sklearn.svm import SVC
-import pandas as pd
 import numpy as np
 import pickle
-
-from utils import load_dataset, create_noisy_dataset
 
 
 class BackgroundForegroundClassifier(ABC):

@@ -1,11 +1,8 @@
-from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from abc import ABC, abstractmethod
 import numpy as np
 import pickle
-
-from utils import load_dataset
 
 
 class DigitClassifier(ABC):
@@ -106,8 +103,8 @@ class NNClassifier(DigitClassifier):
     '''A digit classifier that uses feed-forward neural networks.'''
 
     def __init__(self) -> None:
-        #Defaults: activation: Relu, optimizer: adam
-        self.model = MLPClassifier(hidden_layer_sizes=(1000,500,100))
+        # Defaults: activation: Relu, optimizer: adam
+        self.model = MLPClassifier(hidden_layer_sizes=(1000, 500, 100))
 
     def fit(self, features, labels):
         self.model.fit(features, labels)

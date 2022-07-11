@@ -42,7 +42,7 @@ def train_background_vs_foreground() -> SVMBackgroundForegroundClassifier:
 
     try:
         with open("background_dataset.pickle", "rb") as f:
-            background_dataset = pickle.load(f)
+            background_data = pickle.load(f)
     except FileNotFoundError:
         background_data = load_dataset('data/background', background=True)
 
@@ -135,7 +135,6 @@ if __name__ == "__main__":
 
         input_features.append(features)
 
-
     # Background vs Foreground
     try:
         with open("svm_bf_model.pickle", "rb") as f:
@@ -158,5 +157,7 @@ if __name__ == "__main__":
     digits = digit_classifier.predict(
         np.array(data.features.values.tolist()),
     )
-    print('Foreground vs Background classifier recognised {} instances of human, foreground sound.'.format(len(digits)))
-    print('Digit prediction: {}'.format(' '.join(digits)))
+    print(f'Foreground vs Background classifier recognised {len(digits)} \
+            instances of human, foreground sound.')
+
+    print(f'Digit prediction: {" ".join(digits)}')
