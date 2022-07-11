@@ -6,8 +6,9 @@ import librosa
 import pickle
 
 from preprocess import apply_filters, change_sample_rate
-from segmentation import SVMBackgroundForegroundClassifier
-from digits import NNClassifier
+from segmentation import BackgroundForegroundClassifier,\
+     SVMBackgroundForegroundClassifier
+from digits import DigitClassifier, NNClassifier
 
 from utils import get_equal_samples, load_dataset, get_features_from_signal,\
     create_noisy_dataset
@@ -21,13 +22,13 @@ def parse_args():
     return args['input']
 
 
-def train_background_vs_foreground() -> SVMBackgroundForegroundClassifier:
+def train_background_vs_foreground() -> BackgroundForegroundClassifier:
     '''
-    Trains a new instance of SVMBackgroundForegroundClassifier.
+    Trains a new instance of BackgroundForegroundClassifier.
 
     Returns
     -------
-    classifier : SVMBackgroundForegroundClassifier
+    classifier : BackgroundForegroundClassifier
         The trained instance of the background vs foreground classifier.
     '''
     try:
@@ -69,13 +70,13 @@ def train_background_vs_foreground() -> SVMBackgroundForegroundClassifier:
     return classifier
 
 
-def train_digit_classifier() -> NNClassifier:
+def train_digit_classifier() -> DigitClassifier:
     '''
-    Trains a new instance of NNClassifier.
+    Trains a new instance of DigitClassifier.
 
     Returns
     -------
-    classifier : NNClassifier
+    classifier : DigitClassifier
         The trained instance of the digit classifier.
     '''
     try:
