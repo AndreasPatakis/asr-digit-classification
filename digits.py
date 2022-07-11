@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 from abc import ABC, abstractmethod
 import numpy as np
 import pickle
@@ -101,24 +102,22 @@ class KNNDigitClassifier(DigitClassifier):
             pickle.dump(self, pickle_out)
 
 
-if __name__ == '__main__':
-    data = load_dataset('data/digits')
-    data.dropna(inplace=True)
+class NNClassifier(DigitClassifier):
+    '''A digit classifier that uses feed-forward neural networks.'''
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        np.array(data.features.values.tolist()),
-        np.array(data.label),
-        test_size=0.2
-    )
+    def __init__(self) -> None:
+        #Defaults: activation: Relu, optimizer: adam
+        self.model = MLPClassifier(hidden_layer_sizes=(1000,500,100))
 
-    classifier = KNNDigitClassifier(n_neighbors=3)
+    def fit(self, features, labels):
+        self.model.fit(features, labels)
 
-    # Train the classifier
-    classifier.fit(X_train, y_train)
+    def predict(self, features):
+        return self.model.predict(features)
 
-    # Calculate the classifier's score
-    score = classifier.score(X_test, y_test)
-    print(f'Score: {score}')
+    def score(self, test_features, test_labels):
+        return self.model.score(test_features, test_labels)
 
-    # Save the classifier
-    classifier.save()
+    def save(self):
+        with open('nn_digit_model.pickle', 'wb') as pickle_out:
+            pickle.dump(self, pickle_out)

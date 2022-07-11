@@ -1,5 +1,4 @@
 from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
 from abc import ABC, abstractmethod
 from sklearn.svm import SVC
 import pandas as pd
@@ -105,23 +104,4 @@ class SVMBackgroundForegroundClassifier(BackgroundForegroundClassifier):
 
     def save(self):
         with open('svm_bf_model.pickle', 'wb') as pickle_out:
-            pickle.dump(self, pickle_out)
-
-class NNClassifier(BackgroundForegroundClassifier):
-
-    def __init__(self) -> None:
-        #Defaults: activation: Relu, optimizer: adam
-        self.model = MLPClassifier(hidden_layer_sizes=(1000,500,100))
-
-    def fit(self, features, labels):
-        self.model.fit(features, labels)
-
-    def predict(self, features):
-        return self.model.predict(features)
-
-    def score(self, test_features, test_labels):
-        return self.model.score(test_features, test_labels)
-
-    def save(self):
-        with open('nn_digit_model.pickle', 'wb') as pickle_out:
             pickle.dump(self, pickle_out)

@@ -6,8 +6,8 @@ import librosa
 import pickle
 
 from preprocess import apply_filters, change_sample_rate
-from segmentation import SVMBackgroundForegroundClassifier, NNClassifier
-from digits import KNNDigitClassifier
+from segmentation import SVMBackgroundForegroundClassifier
+from digits import NNClassifier
 
 from utils import get_equal_samples, load_dataset, get_features_from_signal,\
     create_noisy_dataset
