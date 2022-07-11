@@ -79,7 +79,7 @@ def train_digit_classifier() -> NNClassifier:
         The trained instance of the digit classifier.
     '''
     try:
-        with open("noisy_foreground_df.pickle", "rb") as f:
+        with open("noisy_foreground_dataset.pickle", "rb") as f:
             data = pickle.load(f)
     except FileNotFoundError:
         data = load_dataset('data/digits')

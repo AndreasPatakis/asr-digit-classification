@@ -107,7 +107,7 @@ class SVMBackgroundForegroundClassifier(BackgroundForegroundClassifier):
         with open('svm_bf_model.pickle', 'wb') as pickle_out:
             pickle.dump(self, pickle_out)
 
-class NNClassifier():
+class NNClassifier(BackgroundForegroundClassifier):
 
     def __init__(self) -> None:
         #Defaults: activation: Relu, optimizer: adam

@@ -33,7 +33,7 @@ def apply_filters(signal, sr):
     # Bandpass filter
     # 100Hz - 3KHz (Keep fundamental freuqncies, ignore harmonics)
 
-    return apply_bandpass_filter(signal, sr, 100, 3000)
+    return apply_bandpass_filter(signal, sr, 300, 3000)
 
 
 def apply_bandpass_filter(signal, sr, low, high):
