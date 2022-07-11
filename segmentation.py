@@ -1,4 +1,5 @@
 from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
 from abc import ABC, abstractmethod
 from sklearn.svm import SVC
 import pandas as pd
@@ -106,32 +107,21 @@ class SVMBackgroundForegroundClassifier(BackgroundForegroundClassifier):
         with open('svm_bf_model.pickle', 'wb') as pickle_out:
             pickle.dump(self, pickle_out)
 
+class NNClassifier():
 
-if __name__ == '__main__':
-    foreground_data = create_noisy_dataset(
-        'data/background',
-        'data/digits',
-        1000
-    )
+    def __init__(self) -> None:
+        #Defaults: activation: Relu, optimizer: adam
+        self.model = MLPClassifier(hidden_layer_sizes=(1000,500,100))
 
-    background_data = load_dataset('data/background', background=True)
+    def fit(self, features, labels):
+        self.model.fit(features, labels)
 
-    data = pd.concat((background_data, foreground_data), ignore_index=True)
+    def predict(self, features):
+        return self.model.predict(features)
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        np.array(data.features.values.tolist()),
-        np.array(data.label),
-        test_size=0.2
-    )
+    def score(self, test_features, test_labels):
+        return self.model.score(test_features, test_labels)
 
-    classifier = SVMBackgroundForegroundClassifier()
-
-    # Train the classifier
-    classifier.fit(X_train, y_train)
-
-    # Calculate the classifier's score
-    score = classifier.score(X_test, y_test)
-    print(f'Score: {score}')
-
-    # Save the classifier
-    classifier.save()
+    def save(self):
+        with open('nn_digit_model.pickle', 'wb') as pickle_out:
+            pickle.dump(self, pickle_out)

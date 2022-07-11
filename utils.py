@@ -4,6 +4,8 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 from random import choice
+from scipy.io.wavfile import write
+
 
 from preprocess import apply_filters, change_sample_rate
 
@@ -75,7 +77,7 @@ def get_data_from_file(
 
     # Amplify background signals
     if background:
-        signal *= 15
+        signal *= 2
 
     # Preprocess the signal
 
@@ -242,22 +244,22 @@ def create_noisy_dataset(
         background_signal = choice(get_equal_samples(background, bsr))
         foreground_signal = get_equal_samples(foreground, fsr)[0]
 
-        noisy_signal = 15 * background_signal + foreground_signal
+        noisy_signal = 1.4 * background_signal + foreground_signal
 
         # Preprocess the noisy signal
 
         # Change sample rate to 8KHz
         noisy_signal, nsr = change_sample_rate(noisy_signal, bsr, 8000)
 
+
         # Apply filters to keep only the fundamental frequencies
         # of the human voice.
         noisy_signal = apply_filters(noisy_signal, nsr)
-
         data.loc[len(data.index)] = [
             f'{background_file} + {foreground_file}',
             0,
             get_features_from_signal(noisy_signal),
-            'foreground'
+            foreground_file.split('_')[0]
         ]
 
     return data

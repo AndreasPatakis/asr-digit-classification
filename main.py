@@ -6,7 +6,7 @@ import librosa
 import pickle
 
 from preprocess import apply_filters, change_sample_rate
-from segmentation import SVMBackgroundForegroundClassifier
+from segmentation import SVMBackgroundForegroundClassifier, NNClassifier
 from digits import KNNDigitClassifier
 
 from utils import get_equal_samples, load_dataset, get_features_from_signal,\
@@ -30,14 +30,21 @@ def train_background_vs_foreground() -> SVMBackgroundForegroundClassifier:
     classifier : SVMBackgroundForegroundClassifier
         The trained instance of the background vs foreground classifier.
     '''
+    try:
+        with open("foreground_dataset.pickle", "rb") as f:
+            foreground_data = pickle.load(f)
+    except FileNotFoundError:
+        foreground_data = create_noisy_dataset(
+            'data/background',
+            'data/digits',
+            2000
+        )
 
-    foreground_data = create_noisy_dataset(
-        'data/background',
-        'data/digits',
-        1000
-    )
-
-    background_data = load_dataset('data/background', background=True)
+    try:
+        with open("background_dataset.pickle", "rb") as f:
+            background_dataset = pickle.load(f)
+    except FileNotFoundError:
+        background_data = load_dataset('data/background', background=True)
 
     data = pd.concat((background_data, foreground_data), ignore_index=True)
 
@@ -62,17 +69,21 @@ def train_background_vs_foreground() -> SVMBackgroundForegroundClassifier:
     return classifier
 
 
-def train_digit_classifier() -> KNNDigitClassifier:
+def train_digit_classifier() -> NNClassifier:
     '''
-    Trains a new instance of KNNDigitClassifier.
+    Trains a new instance of NNClassifier.
 
     Returns
     -------
-    classifier : KNNDigitClassifier
+    classifier : NNClassifier
         The trained instance of the digit classifier.
     '''
-    data = load_dataset('data/digits')
-    data.dropna(inplace=True)
+    try:
+        with open("noisy_foreground_df.pickle", "rb") as f:
+            data = pickle.load(f)
+    except FileNotFoundError:
+        data = load_dataset('data/digits')
+        data.dropna(inplace=True)
 
     X_train, X_test, y_train, y_test = train_test_split(
         np.array(data.features.values.tolist()),
@@ -80,7 +91,7 @@ def train_digit_classifier() -> KNNDigitClassifier:
         test_size=0.2
     )
 
-    classifier = KNNDigitClassifier(n_neighbors=3)
+    classifier = NNClassifier()
 
     # Train the classifier
     classifier.fit(X_train, y_train)
@@ -120,6 +131,7 @@ if __name__ == "__main__":
 
         input_features.append(features)
 
+
     # Background vs Foreground
     try:
         with open("svm_bf_model.pickle", "rb") as f:
@@ -134,7 +146,7 @@ if __name__ == "__main__":
 
     # Digit Classifier
     try:
-        with open("knn_digit_model.pickle", "rb") as f:
+        with open("nn_digit_model.pickle", "rb") as f:
             digit_classifier = pickle.load(f)
     except FileNotFoundError:
         digit_classifier = train_digit_classifier()
@@ -142,5 +154,5 @@ if __name__ == "__main__":
     digits = digit_classifier.predict(
         np.array(data.features.values.tolist()),
     )
-
-    print(' '.join(digits))
+    print('Foreground vs Background classifier recognised {} instances of human, foreground sound.'.format(len(digits)))
+    print('Digit prediction: {}'.format(' '.join(digits)))

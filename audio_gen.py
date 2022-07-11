@@ -56,6 +56,7 @@ def get_audio(digits_dir,noise_dir):
     digit_values = [x for x in range(10)]
     digits = split_digits(read_folder(digits_dir))
     final_signal = np.empty(1, dtype=np.int8)
+
     while digit_values:
         while True:
             curr_digit = random.randint(digit_values[0],digit_values[-1])
@@ -63,13 +64,13 @@ def get_audio(digits_dir,noise_dir):
                 digit_values.pop(digit_values.index(curr_digit))
                 break
         print("Number: ",curr_digit)
-        #Both noise and digit signals are resampled to 8KHz sample rate, so sr is the same
-        #Noise duration will be between 1 to 4 seconds long
+
+        #Noise duration will be between 1 to 2 seconds long
         noise_duration = random.randint(1,2)
         noise_signal, n_sr = get_noise_signal(noise_dir,noise_duration)
 
         #Pick a random recording of the chosen digit
-        recording = random.randint(0,len(digits[0]))
+        recording = random.randint(0,len(digits[0])-1)
         digit_recording = digits[curr_digit][recording]
         digit_signal, d_sr = get_digit_signal(os.path.join(digits_dir,digit_recording),noise_signal)
 
@@ -82,9 +83,5 @@ def get_audio(digits_dir,noise_dir):
 
     return final_signal, d_sr
 
-
 if __name__ == '__main__':
-    digits_dir = './data/digits'
-    noise_dir = './data/background'
-
-    signal, sr = get_audio(digits_dir,noise_dir)
+    get_audio('data/digits','data/background')
