@@ -105,7 +105,7 @@ def get_data_from_file(
     return data
 
 
-def get_features_from_signal(y: np.ndarray):
+def get_features_from_signal(y: np.ndarray) -> np.ndarray:
     '''
     get_features_from_signal(y=y)
 
