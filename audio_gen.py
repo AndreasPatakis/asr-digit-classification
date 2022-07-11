@@ -5,10 +5,6 @@ import utils
 import numpy as np
 from scipy.io.wavfile import write
 
-from preprocess import SignalPreprocessor
-
-sp = SignalPreprocessor()
-
 
 def read_folder(path:str):
     return sorted(os.listdir(path))

@@ -5,9 +5,7 @@ import numpy as np
 import pandas as pd
 from random import choice
 
-from preprocess import SignalPreprocessor
-
-sp = SignalPreprocessor()
+from preprocess import apply_filters, change_sample_rate
 
 
 def load_dataset(directory: str, background: bool = False) -> pd.DataFrame:
@@ -82,11 +80,11 @@ def get_data_from_file(
     # Preprocess the signal
 
     # Change sample rate to 8KHz
-    signal, sr = sp.change_sample_rate(signal, sr, 8000)
+    signal, sr = change_sample_rate(signal, sr, 8000)
 
     # Apply filters to keep only the fundamental frequencies
     # of the human voice.
-    signal = sp.apply_filters(signal, sr)
+    signal = apply_filters(signal, sr)
 
     data = pd.DataFrame(
         columns=['filename', 'sample_index', 'features', 'label']
@@ -249,11 +247,11 @@ def create_noisy_dataset(
         # Preprocess the noisy signal
 
         # Change sample rate to 8KHz
-        noisy_signal, nsr = sp.change_sample_rate(noisy_signal, bsr, 8000)
+        noisy_signal, nsr = change_sample_rate(noisy_signal, bsr, 8000)
 
         # Apply filters to keep only the fundamental frequencies
         # of the human voice.
-        noisy_signal = sp.apply_filters(noisy_signal, nsr)
+        noisy_signal = apply_filters(noisy_signal, nsr)
 
         data.loc[len(data.index)] = [
             f'{background_file} + {foreground_file}',

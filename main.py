@@ -1,69 +1,146 @@
 from sklearn.model_selection import train_test_split
 from argparse import ArgumentParser
+import pandas as pd
 import numpy as np
 import librosa
 import pickle
 
-from preprocess import SignalPreprocessor
-from digits import KNNDigitClassifier
+from preprocess import apply_filters, change_sample_rate
 from segmentation import SVMBackgroundForegroundClassifier
+from digits import KNNDigitClassifier
 
-from utils import load_dataset, get_features_from_signal
+from utils import get_equal_samples, load_dataset, get_features_from_signal,\
+    create_noisy_dataset
 
 
 def parse_args():
     '''Parses command line args.'''
     parser = ArgumentParser()
     parser.add_argument("input", help="path to the input audio file")
-    parser.add_argument(
-        "-m", "--model", required=False, help="path to the trained model"
-    )
     args = vars(parser.parse_args())
-    return args['input'], args['model']
+    return args['input']
 
 
-# TODO Rewrite
-# if __name__ == "__main__":
-#     # Parse args
-#     input_file, model_file = parse_args()
+def train_background_vs_foreground() -> SVMBackgroundForegroundClassifier:
+    '''
+    Trains a new instance of SVMBackgroundForegroundClassifier.
 
-#     # Input signal
-#     input_signal, sample_rate = librosa.load(input_file)
+    Returns
+    -------
+    classifier : SVMBackgroundForegroundClassifier
+        The trained instance of the background vs foreground classifier.
+    '''
 
-#     # Signal preprocessing
-#     preprocessor = SignalPreprocessor()
+    foreground_data = create_noisy_dataset(
+        'data/background',
+        'data/digits',
+        1000
+    )
 
-#     input_signal, sample_rate = preprocessor.change_sample_rate(
-#         input_signal, sample_rate, 8000
-#     )
-#     input_signal = preprocessor.apply_filters(input_signal, sample_rate)
+    background_data = load_dataset('data/background', background=True)
 
-#     # MFCC, Delta and Delta-Delta Features
-#     features = get_features_from_signal(input_signal)
+    data = pd.concat((background_data, foreground_data), ignore_index=True)
 
-#     # Background vs Foreground
-#     background_vs_foreground = SVMBackgroundForegroundClassifier()
-#     digit_audio_list = background_vs_foreground.fit()
+    X_train, X_test, y_train, y_test = train_test_split(
+        np.array(data.features.values.tolist()),
+        np.array(data.label),
+        test_size=0.2
+    )
 
-#     # Digit Classifier
-#     if model_file:
-#         digit_classifier = pickle.load(open(model_file, 'rb'))
-#     else:
-#         # Load the training dataset
-#         print('Loading training dataset...')
-#         data = load_dataset('data/digits')
-#         data.dropna(inplace=True)
+    classifier = SVMBackgroundForegroundClassifier()
 
-#         X_train, X_test, y_train, y_test = train_test_split(
-#             np.array(data.features.values.tolist()),
-#             np.array(data.label),
-#             test_size=0.2
-#         )
-#         print('Training dataset loaded.')
+    # Train the classifier
+    classifier.fit(X_train, y_train)
 
-#         # Traing the digit classifier
-#         digit_classifier = KNNDigitClassifier(n_neighbors=5)
-#         digit_classifier.fit(X_train, y_train)
+    # Calculate the classifier's score
+    score = classifier.score(X_test, y_test)
+    print(f'Score: {score}')
 
-#     digits = [digit_classifier.predict(audio) for audio in digit_audio_list]
-#     print(digits)
+    # Save the classifier
+    classifier.save()
+
+    return classifier
+
+
+def train_digit_classifier() -> KNNDigitClassifier:
+    '''
+    Trains a new instance of KNNDigitClassifier.
+
+    Returns
+    -------
+    classifier : KNNDigitClassifier
+        The trained instance of the digit classifier.
+    '''
+    data = load_dataset('data/digits')
+    data.dropna(inplace=True)
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        np.array(data.features.values.tolist()),
+        np.array(data.label),
+        test_size=0.2
+    )
+
+    classifier = KNNDigitClassifier(n_neighbors=3)
+
+    # Train the classifier
+    classifier.fit(X_train, y_train)
+
+    # Calculate the classifier's score
+    score = classifier.score(X_test, y_test)
+    print(f'Score: {score}')
+
+    # Save the classifier
+    classifier.save()
+
+    return classifier
+
+
+if __name__ == "__main__":
+    # Parse args
+    input_file = parse_args()
+
+    # Input signal
+    input_signal, sample_rate = librosa.load(input_file)
+
+    # Signal preprocessing
+
+    input_signal, sample_rate = change_sample_rate(
+        input_signal, sample_rate, 8000
+    )
+
+    input_signal = apply_filters(input_signal, sample_rate)
+    input_samples = get_equal_samples(input_signal, sample_rate)
+
+    # Collect features
+    input_features = []
+
+    for sample in input_samples:
+        # MFCC, Delta and Delta-Delta Features
+        features = get_features_from_signal(sample)
+
+        input_features.append(features)
+
+    # Background vs Foreground
+    try:
+        with open("svm_bf_model.pickle", "rb") as f:
+            background_vs_foreground = pickle.load(f)
+    except FileNotFoundError:
+        background_vs_foreground = train_background_vs_foreground()
+
+    bf_labels = background_vs_foreground.predict(input_features)
+    bf_data = pd.DataFrame({'features': input_features, 'label': bf_labels})
+
+    data = bf_data[bf_data.label == 'foreground']
+
+    # Digit Classifier
+    try:
+        with open("knn_digit_model.pickle", "rb") as f:
+            digit_classifier = pickle.load(f)
+    except FileNotFoundError:
+        digit_classifier = train_digit_classifier()
+
+    digits = digit_classifier.predict(
+        np.array(data.features.values.tolist()),
+    )
+
+    print(' '.join(digits))
